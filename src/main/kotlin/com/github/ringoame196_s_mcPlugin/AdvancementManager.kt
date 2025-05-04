@@ -71,7 +71,6 @@ class AdvancementManager {
         val icon = display.icon
 
         val itemMeta = icon.itemMeta ?: return null
-        itemMeta.setDisplayName("${display.type.color}$title")
 
         // 実績解除済みの場合 表示名に[解除済み]と追記
         val displayName = if (hasAdvancement(targetPlayer, advancementIterator)) {
