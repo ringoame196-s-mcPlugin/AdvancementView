@@ -4,5 +4,5 @@ import org.bukkit.entity.Player
 
 object Data {
     val lang = mutableMapOf<String, String>()
-    val playerPage = mutableMapOf<Player, Int>()
+    val usePlayerData = mutableMapOf<Player, UsePlayer>()
 }

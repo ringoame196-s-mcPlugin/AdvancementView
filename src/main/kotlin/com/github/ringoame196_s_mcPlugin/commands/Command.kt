@@ -2,6 +2,7 @@ package com.github.ringoame196_s_mcPlugin.commands
 
 import com.github.ringoame196_s_mcPlugin.AdvancementManager
 import com.github.ringoame196_s_mcPlugin.Data
+import com.github.ringoame196_s_mcPlugin.UsePlayer
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
@@ -31,7 +32,7 @@ class Command : CommandExecutor, TabCompleter {
         val advancementManager = AdvancementManager()
         val gui = advancementManager.makeAdvancementViewGUI(targetPlayer)
         sender.openInventory(gui)
-        Data.playerPage[sender] = 1 // ページを1に設定
+        Data.usePlayerData[sender] = UsePlayer(1,targetPlayer) // usePlayerData設定
 
         return true
     }
