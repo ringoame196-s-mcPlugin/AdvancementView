@@ -27,6 +27,7 @@ class AdvancementManager {
     fun updateGUI(gui: Inventory, page: Int, targetPlayer: Player) {
         val advancementSize = guiSize - 2
         var advancementNumber = page * advancementSize
+        gui.clear()
         for (i in 0..advancementSize) {
             advancementNumber ++
             val item = makeViewItem(advancementNumber, targetPlayer) ?: continue
