@@ -1,7 +1,7 @@
 package com.github.ringoame196_s_mcPlugin.events
 
-import com.github.ringoame196_s_mcPlugin.managers.AdvancementManager
 import com.github.ringoame196_s_mcPlugin.data.Data
+import com.github.ringoame196_s_mcPlugin.managers.AdvancementManager
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
