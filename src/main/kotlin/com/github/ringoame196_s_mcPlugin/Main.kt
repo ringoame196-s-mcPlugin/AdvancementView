@@ -1,6 +1,7 @@
 package com.github.ringoame196_s_mcPlugin
 
 import com.github.ringoame196_s_mcPlugin.commands.Command
+import com.github.ringoame196_s_mcPlugin.data.Data
 import com.github.ringoame196_s_mcPlugin.events.GUIEvents
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -12,7 +13,7 @@ class Main : JavaPlugin() {
     override fun onEnable() {
         super.onEnable()
 
-        saveResource("lang.json", false)
+        saveResource("lang.json", false) // lang.json生成
         loadLang()
 
         server.pluginManager.registerEvents(GUIEvents(), plugin)
@@ -20,6 +21,7 @@ class Main : JavaPlugin() {
         command!!.setExecutor(Command())
     }
 
+    // lang.jsonを読み込む
     private fun loadLang() {
         val jsonString = File(plugin.dataFolder, "lang.json").readText()
         val gson = Gson()

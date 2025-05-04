@@ -1,5 +1,6 @@
-package com.github.ringoame196_s_mcPlugin
+package com.github.ringoame196_s_mcPlugin.managers
 
+import com.github.ringoame196_s_mcPlugin.data.Data
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -11,7 +12,7 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 class AdvancementManager {
-    val advancementIteratorList = Bukkit.advancementIterator().asSequence()
+    val advancementList = Bukkit.advancementIterator().asSequence()
         .filter { !it.key.key.startsWith("recipes/") } // レシピを除外
         .toList()
 
@@ -25,16 +26,16 @@ class AdvancementManager {
     }
 
     fun updateGUI(gui: Inventory, page: Int, targetPlayer: Player) {
-        val advancementSize = guiSize - 2
+        val advancementSize = guiSize - 1
         var advancementNumber = page * advancementSize
         gui.clear()
-        for (i in 0..advancementSize) {
+        for (i in 0 until advancementSize) {
             advancementNumber ++
             val item = makeViewItem(advancementNumber, targetPlayer) ?: continue
             gui.setItem(i, item)
         }
         val lastSlot = guiSize - 1
-        gui.setItem(lastSlot, nextButtonItem())
+        gui.setItem(lastSlot, nextButtonItem()) // 次へボタン設置
     }
 
     fun changeAdvancement(targetPlayer: Player, advancement: Advancement) {
@@ -61,10 +62,10 @@ class AdvancementManager {
     }
 
     private fun makeViewItem(advancementNumber: Int, targetPlayer: Player): ItemStack? {
-        if (advancementIteratorList.size < advancementNumber) return null
-        val advancementIterator = advancementIteratorList[advancementNumber]
-        val display = advancementIterator.display ?: return null
-        val id = advancementIterator.key.toString().replace("/", ".").replace("minecraft:", "")
+        if (advancementList.size < advancementNumber) return null
+        val advancement = advancementList[advancementNumber]
+        val display = advancement.display ?: return null
+        val id = advancement.key.toString().replace("/", ".").replace("minecraft:", "")
 
         val title = Data.lang["$id.title"] ?: id
         val description = Data.lang["$id.description"]
@@ -73,7 +74,7 @@ class AdvancementManager {
         val itemMeta = icon.itemMeta ?: return null
 
         // 実績解除済みの場合 表示名に[解除済み]と追記
-        val displayName = if (hasAdvancement(targetPlayer, advancementIterator)) {
+        val displayName = if (hasAdvancement(targetPlayer, advancement)) {
             "${display.type.color}$title${ChatColor.YELLOW}[解除済み]"
         } else {
             "${display.type.color}$title"
@@ -90,7 +91,7 @@ class AdvancementManager {
         icon.itemMeta = itemMeta
 
         // 実績解除済みの場合 光らせる
-        if (hasAdvancement(targetPlayer, advancementIterator)) {
+        if (hasAdvancement(targetPlayer, advancement)) {
             icon.addUnsafeEnchantment(Enchantment.DURABILITY, 1)
         }
 

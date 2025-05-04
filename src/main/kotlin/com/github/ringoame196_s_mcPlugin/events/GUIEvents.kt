@@ -1,7 +1,7 @@
 package com.github.ringoame196_s_mcPlugin.events
 
-import com.github.ringoame196_s_mcPlugin.AdvancementManager
-import com.github.ringoame196_s_mcPlugin.Data
+import com.github.ringoame196_s_mcPlugin.managers.AdvancementManager
+import com.github.ringoame196_s_mcPlugin.data.Data
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -49,13 +49,14 @@ class GUIEvents : Listener {
 
         val sound = Sound.BLOCK_BELL_USE
         val listId = item.itemMeta?.lore?.get(2)?.toIntOrNull() ?: return
-        val advancement = advancementManager.advancementIteratorList[listId] ?: return
+        val advancement = advancementManager.advancementList[listId] ?: return
 
         val usePlayerData = Data.usePlayerData[player] ?: return
         val targetPlayer = usePlayerData.targetPlayer
         val page = usePlayerData.page
         advancementManager.changeAdvancement(targetPlayer, advancement)
-        advancementManager.updateGUI(gui.topInventory, page, targetPlayer)
+        advancementManager.updateGUI(gui.topInventory, page, targetPlayer) // 再読み込み
+
         player.playSound(player, sound, 1f, 1f)
     }
 

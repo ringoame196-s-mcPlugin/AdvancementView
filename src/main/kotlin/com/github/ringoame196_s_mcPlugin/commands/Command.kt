@@ -1,8 +1,8 @@
 package com.github.ringoame196_s_mcPlugin.commands
 
-import com.github.ringoame196_s_mcPlugin.AdvancementManager
-import com.github.ringoame196_s_mcPlugin.Data
-import com.github.ringoame196_s_mcPlugin.UsePlayer
+import com.github.ringoame196_s_mcPlugin.managers.AdvancementManager
+import com.github.ringoame196_s_mcPlugin.data.Data
+import com.github.ringoame196_s_mcPlugin.data.UsePlayer
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
