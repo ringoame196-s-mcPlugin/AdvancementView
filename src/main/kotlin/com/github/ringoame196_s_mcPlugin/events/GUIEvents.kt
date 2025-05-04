@@ -45,8 +45,9 @@ class GUIEvents : Listener {
 
     private fun changeAdvancement(gui: InventoryView, item: ItemStack, player: Player, isShiftClick: Boolean) {
         if (!isShiftClick) return
-
         if (!player.isOp) return
+
+        val sound = Sound.BLOCK_BELL_USE
         val listId = item.itemMeta?.lore?.get(2)?.toIntOrNull() ?: return
         val advancement = advancementManager.advancementIteratorList[listId] ?: return
 
@@ -55,6 +56,7 @@ class GUIEvents : Listener {
         val page = usePlayerData.page
         advancementManager.changeAdvancement(targetPlayer, advancement)
         advancementManager.updateGUI(gui.topInventory, page, targetPlayer)
+        player.playSound(player, sound, 1f, 1f)
     }
 
     @EventHandler
