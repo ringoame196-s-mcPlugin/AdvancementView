@@ -8,6 +8,8 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.inventory.InventoryView
+import org.bukkit.inventory.ItemStack
 import kotlin.collections.remove
 
 class GUIEvents : Listener {
@@ -23,15 +25,35 @@ class GUIEvents : Listener {
 
         e.isCancelled = true
         val item = e.currentItem
+        val isShiftClick = e.isShiftClick
         val sound = Sound.UI_BUTTON_CLICK
         player.playSound(player, sound, 1f, 1f)
 
-        if (item != advancementManager.nextButtonItem()) return
+        when (item) {
+            advancementManager.nextButtonItem() -> nextPage(player, gui)
+            else -> changeAdvancement(gui, item ?: return, player, isShiftClick)
+        }
+    }
+
+    private fun nextPage(player: Player, gui: InventoryView) {
+        val usePlayerData = Data.usePlayerData[player] ?: return
+        val targetPlayer = usePlayerData.targetPlayer
+        val page = ++ usePlayerData.page
+
+        advancementManager.updateGUI(gui.topInventory, page, targetPlayer)
+    }
+
+    private fun changeAdvancement(gui: InventoryView, item: ItemStack, player: Player, isShiftClick: Boolean) {
+        if (!isShiftClick) return
+
+        if (!player.isOp) return
+        val listId = item.itemMeta?.lore?.get(2)?.toIntOrNull() ?: return
+        val advancement = advancementManager.advancementIteratorList[listId] ?: return
 
         val usePlayerData = Data.usePlayerData[player] ?: return
         val targetPlayer = usePlayerData.targetPlayer
-        val page = usePlayerData.page ++
-
+        val page = usePlayerData.page
+        advancementManager.changeAdvancement(targetPlayer, advancement)
         advancementManager.updateGUI(gui.topInventory, page, targetPlayer)
     }
 

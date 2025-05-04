@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 class AdvancementManager {
-    private val advancementIteratorList = Bukkit.advancementIterator().asSequence()
+    val advancementIteratorList = Bukkit.advancementIterator().asSequence()
         .filter { !it.key.key.startsWith("recipes/") } // レシピを除外
         .toList()
 
@@ -36,6 +36,21 @@ class AdvancementManager {
         gui.setItem((guiSize - 1), nextButtonItem())
     }
 
+    fun changeAdvancement(targetPlayer: Player, advancement: Advancement) {
+        val progress = targetPlayer.getAdvancementProgress(advancement)
+        if (hasAdvancement(targetPlayer, advancement)) {
+            // 実績取り消し
+            for (criteria in progress.awardedCriteria) {
+                progress.revokeCriteria(criteria)
+            }
+        } else {
+            // 実績解除
+            for (criteria in progress.remainingCriteria) {
+                progress.awardCriteria(criteria)
+            }
+        }
+    }
+
     fun nextButtonItem(): ItemStack {
         val item = ItemStack(Material.STICK)
         val itemMeta = item.itemMeta ?: return item
@@ -56,7 +71,11 @@ class AdvancementManager {
 
         val itemMeta = icon.itemMeta ?: return null
         itemMeta.setDisplayName("${display.type.color}$title")
-        itemMeta.lore = mutableListOf("${ChatColor.AQUA}$description")
+        itemMeta.lore = mutableListOf(
+            "${ChatColor.AQUA}$description",
+            "${ChatColor.YELLOW}シフトクリックで切り替え",
+            "$advancementNumber"
+        )
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
 
         icon.itemMeta = itemMeta

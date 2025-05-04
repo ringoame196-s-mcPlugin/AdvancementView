@@ -32,7 +32,7 @@ class Command : CommandExecutor, TabCompleter {
         val advancementManager = AdvancementManager()
         val gui = advancementManager.makeAdvancementViewGUI(targetPlayer)
         sender.openInventory(gui)
-        Data.usePlayerData[sender] = UsePlayer(1, targetPlayer) // usePlayerData設定
+        Data.usePlayerData[sender] = UsePlayer(0, targetPlayer) // usePlayerData設定
 
         return true
     }
