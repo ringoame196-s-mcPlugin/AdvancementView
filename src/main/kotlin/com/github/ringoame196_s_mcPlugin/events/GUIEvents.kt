@@ -2,6 +2,7 @@ package com.github.ringoame196_s_mcPlugin.events
 
 import com.github.ringoame196_s_mcPlugin.AdvancementManager
 import com.github.ringoame196_s_mcPlugin.Data
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -17,11 +18,14 @@ class GUIEvents : Listener {
     fun onInventoryClick(e: InventoryClickEvent) {
         val gui = e.view
         val player = e.whoClicked as? Player ?: return
-        val item = e.currentItem
         if (gui == player.inventory) return // インベントリクリック時は対象外に
         if (gui.title != advancementGUITitle) return
 
         e.isCancelled = true
+        val item = e.currentItem
+        val sound = Sound.UI_BUTTON_CLICK
+        player.playSound(player, sound, 1f, 1f)
+
         if (item != advancementManager.nextButtonItem()) return
 
         val usePlayerData = Data.usePlayerData[player] ?: return
