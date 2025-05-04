@@ -33,7 +33,8 @@ class AdvancementManager {
             val item = makeViewItem(advancementNumber, targetPlayer) ?: continue
             gui.setItem(i, item)
         }
-        gui.setItem((guiSize - 1), nextButtonItem())
+        val lastSlot = guiSize - 1
+        gui.setItem(lastSlot, nextButtonItem())
     }
 
     fun changeAdvancement(targetPlayer: Player, advancement: Advancement) {
@@ -71,9 +72,18 @@ class AdvancementManager {
 
         val itemMeta = icon.itemMeta ?: return null
         itemMeta.setDisplayName("${display.type.color}$title")
+
+        // 実績解除済みの場合 表示名に[解除済み]と追記
+        val displayName = if (hasAdvancement(targetPlayer, advancementIterator)) {
+            "${display.type.color}$title${ChatColor.YELLOW}[解除済み]"
+        } else {
+            "${display.type.color}$title"
+        }
+        itemMeta.setDisplayName(displayName)
+
         itemMeta.lore = mutableListOf(
             "${ChatColor.AQUA}$description",
-            "${ChatColor.YELLOW}シフトクリックで切り替え",
+            "${ChatColor.YELLOW}シフトクリックで実績状態を切り替える(OP)",
             "$advancementNumber"
         )
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
