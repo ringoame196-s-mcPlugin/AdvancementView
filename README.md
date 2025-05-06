@@ -3,6 +3,10 @@
 ## プラグイン説明
 プレイヤーの実績状況の確認、実績解除の切り替えが可能
 
+
+https://github.com/user-attachments/assets/dcd9a887-1b69-4df6-8260-830603fa33ae
+
+
 ## プラグインダウンロード
 [ダウンロードリンク](https://github.com/ringoame196-s-mcPlugin/AdvancementView/releases/latest)
 
