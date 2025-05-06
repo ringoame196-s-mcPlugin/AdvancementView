@@ -62,7 +62,7 @@ class AdvancementManager {
     }
 
     private fun makeViewItem(advancementNumber: Int, targetPlayer: Player): ItemStack? {
-        if (advancementList.size < advancementNumber) return null
+        if (advancementList.size <= advancementNumber) return null
         val advancement = advancementList[advancementNumber]
         val display = advancement.display ?: return null
         val id = advancement.key.toString().replace("/", ".").replace("minecraft:", "")
